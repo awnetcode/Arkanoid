@@ -1,5 +1,6 @@
-import { containerElement, gameBoardElement, ctx, backgroundImage, platformImage, ballImage, Platform } from "./data.js";
+import { containerElement, gameBoardElement, ctx, backgroundImage, platformImage, ballImage, keys, Platform, Ball } from "./data.js";
 const gamePad = new Platform({ img: platformImage, position: 500 });
+const gameBall = new Ball ({ img: ballImage, position: {x:gamePad.position + 75, y: 710}, started: false})
 
 window.onload = () =>{
     drawGame();
@@ -7,32 +8,29 @@ window.onload = () =>{
 
 const drawGame = () =>{
     ctx.drawImage(backgroundImage, 0,0, gameBoardElement.clientWidth, gameBoardElement.clientHeight);
-    ctx.drawImage(platformImage, gamePad.position, 750, 200, 50);
-    ctx.drawImage(ballImage, 300, 600, 40, 40);
+    gamePad.draw(); 
+    gameBall.move();
 }
 
+const bounce = () =>{
+    if (gameBall.position.y + 50 >= 765 && 
+        gameBall.position.x + 50 >= gamePad.position && 
+        gameBall.position.x <= gamePad.position + 200 
+    ) {
+        gameBall.velocity.y *= -1; 
 
-
-window.addEventListener("keydown", (e) =>{
-    let key = e.key;
-    switch(key){
-        case 'ArrowRight':
-            gamePad.position += 38;
-            break;
-        case 'ArrowLeft':
-            gamePad.position -= 38;
-            break;
+    // Zmiana kierunku w osi X w zależności od miejsca uderzenia
+    const hitPoint = gameBall.position.x - (gamePad.position + 100); // Środek platformy
+    gameBall.velocity.x += hitPoint * 0.05;
     }
-})
+} 
+
 
 
 const animate = () =>{
     ctx.clearRect(0, 0, gameBoardElement.clientWidth, gameBoardElement.height);
     drawGame();
-
-
-    //console.log(gamePad.position);
-
+    bounce();
     requestAnimationFrame(animate);
 }
 
