@@ -12,9 +12,12 @@ platformImage.src = '/assets/arkanoid-pad.png';
 export const ballImage = new Image();
 ballImage.src = '/assets/green-shiny.png';
 
+export const brickImage = new Image();
+brickImage.src = '/assets/brick.png';
+
 export const keys = {
     ArrowLeft:{pressed: false},
-    ArrowRight:{pressed: false},
+    ArrowRight:{pressed: false}, 
     Space:{pressed: false}
 }
 
@@ -118,7 +121,17 @@ export class Ball {
 }
 
 export class Block {
+    constructor({img, position}){
+        this.img = img;
+        this.position = position;
+        this.isBroken = false;
+    }
 
+    draw(){
+        if (!this.isBroken) {
+            ctx.drawImage(this.img, this.position.x, this.position.y, 150, 150);
+        }
+    }
 }
 
 
