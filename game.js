@@ -5,6 +5,7 @@ const gameBall = new Ball ({ img: ballImage, position: {x:gamePad.position + 75,
 const bricks = [];
 
 const createBlocks = () => {
+    bricks.length = 0;  //powoduje odbijanie piłki od cegieł w pierwszym rozdaniu.
     for (let row = 0; row < 5; row++) {
         for (let col = 0; col < 7; col++) {
             bricks.push(new Block({ img: brickImage, position: { x: col * 140 + 100, y: row * 50 + 30 } }));
@@ -64,7 +65,7 @@ const checkCollisions = () => {
 const checkWin = () =>{
     const allBricsBroken = bricks.every(block => block.isBroken);
     if (allBricsBroken) {
-        
+
         cancelAnimationFrame(animate);
 
         gameBall.position.x = gamePad.position + 75;
@@ -77,15 +78,17 @@ const checkWin = () =>{
 
 const checkLose = () =>{
     if (gameBall.position.y >= 800){
-        cancelAnimationFrame(animate);
         gameBall.started = false;
         score = 0;
-
+        
         ctx.font = "50px Kode Mono";
         ctx.fillStyle = '#fefefe';
         ctx.fillText("You Lose!", 500, 370);
+        isRuning = false;
     }
 }
+
+let isRuning = true;
 
 const scoreCount = () =>{
 
@@ -94,14 +97,21 @@ ctx.fillStyle = '#fefefe';
 ctx.fillText("SCORE: "+score, 1000, 30);
 }
 
-let animationId;
+//let animationId;
 
 const animate = () =>{
-    ctx.clearRect(0, 0, gameBoardElement.clientWidth, gameBoardElement.height);
-    drawGame();
-    bounce();
-    scoreCount();
-    animationId = requestAnimationFrame(animate);
+    if (isRuning){
+        ctx.clearRect(0, 0, gameBoardElement.clientWidth, gameBoardElement.height);
+        drawGame();
+        bounce();
+        scoreCount();
+        requestAnimationFrame(animate);
+    }else{
+        cancelAnimationFrame(animate);
+    }
 }
 animate();
+
+//console.log(bricks.map(block => block.isBroken));
+//console.log(bricks);
 
