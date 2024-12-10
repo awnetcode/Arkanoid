@@ -1,4 +1,3 @@
-export const containerElement = document.getElementById('container');
 
 export const gameBoardElement = document.querySelector("#game-board");
 export const ctx = gameBoardElement.getContext('2d');
@@ -109,7 +108,8 @@ export class Ball {
     
             // Odbicia od ścian
             if (this.position.x <= 0 || this.position.x >= 1200 - 50) {
-                this.velocity.x *= -1; 
+                this.velocity.x *= -1;
+             //   this.velocity.y *= -1; 
             };
 
             if (this.position.y <= 0) {
