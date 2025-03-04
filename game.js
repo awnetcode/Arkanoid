@@ -17,12 +17,6 @@ const drawBlocks = () => {
     bricks.forEach(block => block.draw());
 };
 
-
-window.onload = () =>{
-    createBlocks()
-    drawGame();
-}
-
 const drawGame = () =>{
     ctx.drawImage(backgroundImage, 0,0, gameBoardElement.clientWidth, gameBoardElement.clientHeight);
     gamePad.draw(); 
@@ -97,7 +91,8 @@ ctx.fillStyle = '#fefefe';
 ctx.fillText("SCORE: "+score, 1000, 30);
 }
 
-//let animationId;
+
+let animationId; // Globalna zmienna na ID animacji
 
 const animate = () =>{
     if (isRuning){
@@ -105,13 +100,25 @@ const animate = () =>{
         drawGame();
         bounce();
         scoreCount();
-        requestAnimationFrame(animate);
+        animationId = requestAnimationFrame(animate); // Zapisujemy ID animacji
     }else{
-        cancelAnimationFrame(animate);
+        cancelAnimationFrame(animationId); // Przerywamy tylko jeśli ID jest ustawione
     }
 }
-animate();
 
-//console.log(bricks.map(block => block.isBroken));
-//console.log(bricks);
+//uruchamianie gry dopiero po załadowaniu obrazów:
 
+const images = [backgroundImage, platformImage, ballImage, brickImage];
+let loadedImages = 0;
+
+images.forEach(img => {
+    img.onload = () => {
+        loadedImages++;
+        if (loadedImages === images.length) {
+            console.log("Wszystkie obrazy załadowane, start gry");
+            animate();  // Dopiero teraz startujemy animację!
+        }
+    };
+
+    img.onerror = () => console.error("Błąd ładowania obrazu", img.src);
+});

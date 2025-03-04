@@ -3,16 +3,16 @@ export const gameBoardElement = document.querySelector("#game-board");
 export const ctx = gameBoardElement.getContext('2d');
 
 export const backgroundImage = new Image();
-backgroundImage.src = '/assets/cosmic.webp';
+backgroundImage.src = './assets/cosmic.webp';
 
 export const platformImage = new Image();
-platformImage.src = '/assets/arkanoid-pad.png';
+platformImage.src = './assets/arkanoid-pad.png';
 
 export const ballImage = new Image();
-ballImage.src = '/assets/green-shiny.png';
+ballImage.src = './assets/green-shiny.png';
 
 export const brickImage = new Image();
-brickImage.src = '/assets/brick.png';
+brickImage.src = './assets/brick.png';
 
 export const keys = {
     ArrowLeft:{pressed: false},
@@ -34,7 +34,7 @@ window.addEventListener("keydown", (e) =>{
             break;
 
     }
-   // console.log(key);
+   
 })
 
 window.addEventListener("keyup", (e) =>{
@@ -133,5 +133,6 @@ export class Block {
         }
     }
 }
+
 
 
