@@ -75,9 +75,9 @@ export class Platform {
 export class Ball {
     constructor({img, position, started}){
         this.img = img;
-        this.position = position;
+        this.position = position; 
         this.started = started;
-        this.velocity = { x: 5, y: -5 };
+        this.velocity = { x: 10, y: -10 };
         this.angle = 0;
     }
 
